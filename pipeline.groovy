@@ -10,7 +10,7 @@
 			sh './gradlew test'
 		} finally {
 			try {
-				step([$class: 'JUnitResultArchiver', testResults: '**/build/test-results/test/TEST-*.xml'])
+				step([$class: 'JUnitResultArchiver', testResults: '**/build/test-results/test/TEST-*.xml', allowEmptyResults: true])
 				step([$class: 'JacocoPublisher'])
 			} catch(e) {
 				println e	
