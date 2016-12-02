@@ -9,8 +9,12 @@
 		try {
 			sh './gradlew test'
 		} finally {
-			step([$class: 'JUnitResultArchiver', testResults: '**/build/test-results/test/TEST-*.xml'])
-			step([$class: 'JacocoPublisher'])
+			try {
+				step([$class: 'JUnitResultArchiver', testResults: '**/build/test-results/test/TEST-*.xml'])
+				step([$class: 'JacocoPublisher'])
+			} catch(e) {
+				println e	
+			}
 		}
 
 		stage 'check'
