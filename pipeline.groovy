@@ -1,23 +1,19 @@
 #!groovy
 { -> {
-	stage 'build'
 	node {
+		stage 'build'
 		checkout scm
 		sh './gradlew clean build -x test -x check'
-	}
-
-	stage 'test'
-	node {
+	
+		stage 'test'
 		try {
 			sh './gradlew test'
 		} finally {
 			step([$class: 'JUnitResultArchiver', testResults: '**/build/test-results/test/TEST-*.xml'])
 			step([$class: 'JacocoPublisher'])
 		}
-	}
 
-	stage 'check'
-	node {
+		stage 'check'
 		try {
 			sh './gradlew check --continue'
 		} catch(e) {
@@ -27,12 +23,9 @@
 			step([$class: 'FindBugsPublisher', pattern: "build/reports/findbugs/main.xml"])
 			step([$class: 'PmdPublisher', pattern: "build/reports/pmd/main.xml"])
 		}
-	}
 
-	if(env.BRANCH_NAME == "master") {
 		stage 'upload'
-		node {
+		if(env.BRANCH_NAME == "master")
 			sh './gradlew upload'
-		}
 	}
 }
