@@ -30,6 +30,6 @@
 
 		stage 'upload'
 		if(env.BRANCH_NAME == "master")
-			sh './gradlew upload'
+			sh './gradlew uploadArchives'
 	}
 }
