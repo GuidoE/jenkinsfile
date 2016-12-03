@@ -1,12 +1,12 @@
 #!groovy
 { ->
 	node {
-		stage 'build' {
+		stage('build') {
 			checkout scm
 			sh './gradlew clean build -x test -x check'
 		}
 	
-		stage 'test' {
+		stage('test') {
 			try {
 				sh './gradlew test'
 			} finally {
@@ -15,7 +15,7 @@
 			}
 		}
 
-		stage 'check' {
+		stage('check') {
 			try {
 				sh './gradlew check --continue'
 			} catch(e) {
@@ -27,7 +27,7 @@
 			}
 		}
 
-		stage 'upload' {
+		stage('upload') {
 			if(env.BRANCH_NAME == "master")
 				sh './gradlew uploadArchives'
 		}
