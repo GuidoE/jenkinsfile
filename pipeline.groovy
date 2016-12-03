@@ -4,6 +4,7 @@
 		stage('build') {
 			checkout scm
 			sh './gradlew clean build -x test -x check'
+			archiveArtifacts artifacts: 'build/libs/*.jar', fingerprint: true
 		}
 	
 		stage('test') {
