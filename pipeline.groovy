@@ -28,9 +28,9 @@
 			}
 		}
 
-		stage('upload') {
+		stage('publish') {
 			if(env.BRANCH_NAME == "master")
-				sh './gradlew uploadArchives'
+				sh './gradlew publish'
 		}
 	}
 }
